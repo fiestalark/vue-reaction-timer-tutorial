@@ -1,12 +1,35 @@
 <template>
-  <div class="block">
+  <div class="block" v-if="showBlock" @click="stopTimer">
     Click Me
   </div>
 </template>
 
 <script>
 export default {
-    props: ['delay']
+    props: ['delay'],
+    data() {
+        return {
+            showBlock: false,
+            timer: null,
+            reactionTime: 0
+        }
+    },
+    // Lifecyclec hooks: review on Vue docs https://vuejs.org/guide/essentials/lifecycle.html#lifecycle-diagram
+    mounted() {
+        setTimeout(() => {
+            this.showBlock = true
+            this.startTimer()
+        }, this.delay)
+    },
+    methods: {
+        startTimer() {
+            this.timer = setInterval(() => {this.reactionTime += 10}, 10)
+        },
+        stopTimer() {
+            clearInterval(this.timer)
+            console.log(this.reactionTime)
+        }
+    }
 }
 </script>
 
